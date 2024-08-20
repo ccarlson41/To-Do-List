@@ -3,21 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Button Test</title>
-
-    <link rel="stylesheet" href="../static/style.css"/>
+    <title>To-Do List</title>
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    
-    <main>
-        <div class="button">
-
-            <button class="btn" id="good">
-                <span> Click me! </span>
-            </button>
-
-        </div>
-    </main>
+    <h1>To-Do List</h1>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                {{ task.title }}
+                {% if not task.completed %}
+                    <a href="{{ url_for('update_task', task_id=task.id) }}">Complete</a> <!-- Removed extra spaces -->
+                {% else %}
+                    Completed
+                {% endif %}
+                <a href="{{ url_for('delete_task', task_id=task.id) }}">Delete</a> <!-- Removed extra spaces -->
+            </li>
+        {% endfor %}
+    </ul>
+    <form action="{{ url_for('add_task') }}" method="POST">
+        <input type="text" name="title" placeholder="New Task" required>
+        <input type="submit" value="Add Task">
+    </form>
 </body>
 </html>
